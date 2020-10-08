@@ -6,7 +6,7 @@ Plug 'mileszs/ack.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
-Plug 'craigemery/vim-autotag'
+" Plug 'craigemery/vim-autotag'
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'eiginn/netrw'
@@ -16,16 +16,20 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
-Plug 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'bling/vim-airline'
 Plug 'danhp/vim-airline-themes'
 Plug 'scrooloose/syntastic'
 Plug 'mhinz/vim-startify'
 
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+
 Plug 'mattn/emmet-vim',                 {'for': 'html'}
 Plug 'fatih/vim-go',                    {'for': 'go'}
 Plug 'suan/vim-instant-markdown',       {'for': 'markdown'}
+Plug 'jph00/swift-apple',               {'for': 'swift'}
 call plug#end()
 
 " -------
@@ -56,7 +60,7 @@ set listchars=tab:.\ ,eol:¬     "define invisible characters
 set list                        "show invisible characters
 set foldmethod=syntax           "allow folding
 set foldnestmax=3               "max folding depth
-set nofoldenable                "don't fold by default
+au BufRead * normal zR
 set mouse=nvi                   "enable mouse scrolling
 set ttimeoutlen=50              "make Esc work faster
 set tags=tags;                  "tell vim to go up parent to find ctags
@@ -182,6 +186,15 @@ let g:startify_list_order = [
 	\ ]
 let g:startify_skiplist =  ['COMMIT_EDITMSG']
 
+" SourceKit-LSP configuration
+if executable('sourcekit-lsp')
+	au User lsp_setup call lsp#register_server({
+		\ 'name': 'sourcekit-lsp',
+		\ 'cmd': {server_info->['sourcekit-lsp']},
+		\ 'whitelist': ['swift'],
+		\ })
+endif
+
 " --------
 " MAPPINGS
 " --------
@@ -223,6 +236,8 @@ noremap <leader>/ :Ack<Space>
 nnoremap <leader>. :CtrlPTag<cr>
 noremap <leader>d <C-]>
 noremap <leader>D <C-T>
+autocmd FileType swift nnoremap <leader>d :LspDefinition<CR>
+autocmd FileType swift setlocal omnifunc=lsp#complete
 
 " Copy/paste using system clipboard
 noremap <leader>y "+y
@@ -233,6 +248,15 @@ noremap [t :bp<CR>
 noremap ]t :bn<CR>
 noremap <leader>t :enew<CR>
 noremap <leader>q :bd<CR>
+
+" Folding
+nnoremap <silent> <Space> za
+nnoremap <silent> <C-Space> zM
+nnoremap <silent> <C-S-Space> zR
+vnoremap <Space> zf
+
+" Shortcuts
+vnoremap <leader>s :s///g<Left><Left><Left>
 
 inoremap <leader><leader> <ESC>
 vnoremap <leader><leader> <ESC>

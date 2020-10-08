@@ -1,0 +1,6 @@
+[submodule "prezto"]
+	path = prezto
+	url = https://github.com/sorin-ionescu/prezto.git
+[submodule "pure"]
+	path = pure
+	url = https://github.com/sindresorhus/pure.git

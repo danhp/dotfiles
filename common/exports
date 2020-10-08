@@ -1,6 +1,9 @@
 # Make vim the default editor.
 export EDITOR='vim';
 
+# Don’t clear the screen after quitting a manual page.
+export MANPAGER='less -X';
+
 export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
 export HISTCONTROL=erasedups
@@ -8,3 +11,8 @@ export HISTIGNORE="clear*:history*:ll*:la*:ls*"
 export LS_COLORS="di=31;34:ln=31;35:ex=31;31:"
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export THEMECOLOUR='dark'
+
+export PERL5LIB="/Users/danpham/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="/Users/danpham/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/Users/danpham/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/Users/danpham/perl5"

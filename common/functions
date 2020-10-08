@@ -1,7 +1,20 @@
-#! usr/bin/bash
+#! /usr/local/bin/bash
 
 function mkd() {
 	mkdir -p "$@" && cd "$_";
+}
+
+function o() {
+	if [ $# -eq 0 ]; then
+		open .;
+	else
+		open "$@";
+	fi;
+}
+
+# Change working directory to the top-most Finder window location
+function cdf() { # short for `cdfinder`
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
 }
 
 function h() {
@@ -12,16 +25,18 @@ function h() {
 	fi;
 }
 
+# Print filesize for directories and hidden files
 function fs() {
 	if du -b /dev/null > /dev/null 2>&1; then
 		local arg=-sbh;
 	else
 		local arg=-sh;
 	fi
+
 	if [[ -n "$@" ]]; then
 		du $arg -- "$@";
 	else
-		du $arg .[^.]* *;
+		du $arg .* *;
 	fi;
 }
 
@@ -29,7 +44,7 @@ function calc() {
 	local result="";
 	result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')";
 	#                       └─ default (when `--mathlib` is used) is 20
-	#
+
 	if [[ "$result" == *.*  ]]; then
 	# improve the output for decimal numbers
 		printf "$result" |
@@ -42,10 +57,6 @@ function calc() {
 	printf "\n";
 }
 
-function cl() {
-	pygmentize -g "$1"| less -R;
-}
-
 # Extract archives - use: extract <file>
 # Credits to http://dotfiles.org/~pseup/.bashrc
 function extract() {
@@ -54,7 +65,7 @@ function extract() {
 
 		case $1 in
 			*.tar.bz2) tar xjf $1 ;;
-			*.tar.gz) tar xzf $1 ;;
+			*.tar.gz) tar -xvf $1 ;;
 			*.bz2) bunzip2 $1 ;;
 			*.rar) unrar x $1 ;;
 			*.gz) gunzip $1 ;;
@@ -67,16 +78,49 @@ function extract() {
 			*) echo "'$1' cannot be extracted via extract()" ;;
 		esac
 	else
-		echo "'$1' is not a valid file"
+		echo "'$1' is not a valid file";
 	fi
+}
+
+function targz() {
+	local tmpFile="${@%/}.tar";
+	tar -C "${@}" -cvf "${tmpFile}" `ls -A "${@}" | xargs basename -a | tr '\n' ' '` || return 1;
+
+	size=$(
+		stat -c"%s" "${tmpFile}" 2> /dev/null;
+	);
+
+	echo "Compressing .tar ($((size / 1000)) kB) using gzip…";
+	gzip -v "${tmpFile}" || return 1;
+	[ -f "${tmpFile}" ] && rm "${tmpFile}";
+
+	zippedSize=$(
+		stat -c"%s" "${tmpFile}.gz" 2> /dev/null;
+	);
+
+	echo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
 }
 
 function dark() {
 	if [ "$THEMECOLOUR" = "light" ]; then
-		echo -e "\033]50;SetProfile=Default\a"
+		echo -e "\033]50;SetProfile=Default\a";
 		export THEMECOLOUR=dark;
 	else
-		echo -e "\033]50;SetProfile=Light\a"
+		echo -e "\033]50;SetProfile=Light\a";
 		export THEMECOLOUR=light;
+	fi
+}
+
+# Signin to iCloud on the simiulator
+function sim-icloud() {
+	if [ $# -eq 2 ]; then
+		sim aktool authenticate -u $1 -p $2;
+		sim appleAccountSetupTool $1 $2;
+		sim defaults write com.apple.purplebuddy SetupDone -bool YES;
+		sim defaults write com.apple.purplebuddy ForceNoBuddy -bool YES;
+	else
+		echo "Incorrect numbers of arguments passed in.";
+		echo "Expecting:"
+		echo "\tsim-icloud <username> \"<password>\"";
 	fi
 }

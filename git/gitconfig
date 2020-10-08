@@ -1,6 +1,6 @@
 [user]
-	name = daniel_h_pham
-	email = danpham@apple.com
+	name = Daniel Pham
+	email = pham.dany@gmail.com
 [credential]
 	helper = osxkeychain
 [color]
@@ -145,3 +145,5 @@
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
+[pull]
+	ff = only

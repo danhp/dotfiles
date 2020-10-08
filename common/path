@@ -1,3 +1,4 @@
-export PATH=/usr/local/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH
+export PATH=$PATH:/opt/homebrew/bin
+export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH:/usr/local/bin:~/bin:/opt/homebrew/bin
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 

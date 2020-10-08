@@ -5,7 +5,7 @@
 1. Clone the repository
 
 ```
-git clone --recursive https://github.com/danhp/dotfiles.git ~/.dotfiles
+git clone --recursive https://github.siri.apple.com/daniel-pham2/dotfiles.git ~/.dotfiles
 ```
 
 2. Symlink the files
@@ -20,3 +20,8 @@ git clone --recursive https://github.com/danhp/dotfiles.git ~/.dotfiles
 ./brew.sh && ./osx.sh
 ```
 
+4. Open vim and download plugins
+
+```
+:PlugInstall
+```

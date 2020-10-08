@@ -34,17 +34,20 @@ brew install reattach-to-user-namespace
 brew install tmux
 brew install unrar
 brew install zsh-completions
+brew install pyenv
 
 # Useful languages
-brew install lua
+# brew install lua
 # brew install go
-brew install python
+# brew install python
 # brew install ocaml
 # brew install opam
 
 # Useful applications
-brew cask install spectacle
-# brew cask install slack
-# brew cask install vlc
-# brew cask install paintbrush
-brew cask install qlvideo
+brew install --cask 1password
+brew install --cask appcleaner
+brew install --cask private-internet-access
+brew install --cask paintbrush
+brew install --cask spectacle
+brew install --cask vlc
+brew install --cask qlvideo

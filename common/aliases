@@ -1,21 +1,47 @@
-#alias ls="ls -GF"
-alias ll="ls -la"
-alias la="ls -a"
+alias mkdir="${aliases[mkdir]:-mkdir} -p"
 alias rm="rm -r"
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-alias o="open ."
 alias vi="vim"
 alias reload="exec $SHELL -l"
-alias pcat="pygmentize -g"
 alias dunnet="emacs -batch -l dunnet"
 alias pyserver="python -m SimpleHTTPServer"
 
 # Enable alias to be sudo'ed
+# If the last character of the alias value is a space or tab character,
+# then the next command word following the alias is also checked for alias expansion
 alias sudo='sudo '
+
+# Disable correction.
+alias ack='nocorrect ack'
+alias cd='nocorrect cd'
+alias cp='nocorrect cp'
+alias gcc='nocorrect gcc'
+alias grep='nocorrect grep'
+alias ln='nocorrect ln'
+alias man='nocorrect man'
+alias mkdir='nocorrect mkdir'
+alias mv='nocorrect mv'
+
+# Disable globbing.
+alias find='noglob find'
+alias ftp='noglob ftp'
+alias history='noglob history'
+alias locate='noglob locate'
+alias rsync='noglob rsync'
+alias scp='noglob scp'
+alias sftp='noglob sftp'
+
+# Setup ls
+alias ls="${aliases[ls]:-ls} --color=auto --group-directories-first"
+alias l='ls -1A'         # Lists in one column, hidden files.
+alias ll='ls -lh'        # Lists human readable sizes.
+alias lr='ll -R'         # Lists human readable sizes, recursively.
+alias la='ll -A'         # Lists human readable sizes, hidden files.
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
+
+# Never include DS_Store in tar
+alias tar="tar --exclude='.DS_Store'"
 
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
@@ -26,13 +52,8 @@ alias update='brew update; brew upgrade; brew cleanup;'
 # IP addresses
 alias localip="ipconfig getifaddr en0"
 
-# SDK Install
-alias sdk="darwinup -p `xcrun -sdk iphoneos.internal --show-sdk-path` install"
-alias sdk-sim="darwinup -p `xcrun -sdk iphonesimulator.internal --show-sdk-path` install"
+# Recursively delete .DS_Store
+alias clean-ds="find . -name '.DS_Store' -type f -delete"
 
-# Simulator shorthand
-alias sim="xcrun simctl spawn booted"
-alias simhs="xcrun simctl spawn booted assistant_tool startUIRequest"
-alias siminstall="xcrun simctl darwinup ios install"
-
-hash -d simroot="$(xcrun simctl runtime info path)"/Contents/Resources/RuntimeRoot
+# Objective C version of ctags
+alias mtags="/opt/brew/bin/ctags --langmap=objectivec:.h.m"

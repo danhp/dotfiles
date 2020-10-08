@@ -10,18 +10,18 @@ zstyle ':prezto:load' pmodule \
   'history' \
   'directory' \
   'spectrum' \
-  'utility' \
   'completion' \
   'history-substring-search' \
   'syntax-highlighting' \
-  'tmux' \
-  'node'
 
 # Set the key mapping style to 'emacs' or 'vi'.
 # zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 # Auto set the tab and window titles.
 zstyle ':prezto:module:terminal' auto-title 'yes'
+
+# Enable dot expansion
+zstyle ':prezto:module:editor' dot-expansion 'yes'
 
 # Auto start a Tmux session when Zsh is launched in a local terminal.
 # zstyle ':prezto:module:tmux:auto-start' local 'yes'
